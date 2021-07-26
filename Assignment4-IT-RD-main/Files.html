@@ -1,0 +1,59 @@
+<html>
+<head>
+	<style>
+		body{
+			background-color: AntiqueWhite;
+		}
+
+		h2{
+		font-family: "Times New Roman";
+    font-size: 25px;
+	}
+	</style>
+</head>
+<body>
+<h2> Send this file to server (Max size 8M) </h2>
+<form   method="post" enctype="multipart/form-data" >
+<p>Upload the Files</p> 
+<input type="file" onchange="upload()"   id="fid"  multiple name="myfile[]" /><br>
+</form>
+<div id="disp"></div>
+
+<script>
+	//document.getElementById("test").innerHTML="sa3";
+function upload()
+{
+//document.getElementById("test").innerHTML="sa1";
+var formdata=new FormData();
+var size=0;
+var file=document.getElementById("fid").files;
+//document.getElementById("test").innerHTML+=file.length;
+for(var i=0;i<file.length;i++){
+	size+=file[i].size;
+	//document.getElementById("test").innerHTML+=file[i];
+formdata.append("myfile[]",file[i]);
+}
+//document.getElementById("test").innerHTML+="sa";
+var x=new XMLHttpRequest();
+x.onreadystatechange=function(){
+if ((x.readyState==4) && (x.status=200) )
+  document.getElementById("disp").innerHTML=x.responseText;
+	}
+
+if (size<80000000) 
+{
+//	document.getElementById("test").innerHTML+="asss";
+ x.open("POST", "uploadmulti.php");
+ x.send(formdata);
+ //document.getElementById("test").innerHTML+="Sf";
+}
+else { alert("post data size exceeded"); }
+
+}
+
+
+</script>
+
+
+</body>
+</html>
